@@ -48,7 +48,7 @@ index 703504c..ace7885 100644
  # MAGIC as specified in Python/import.c (1.5 to 2.6a1 and 3.1a0, assuming
  # that Py_UnicodeFlag is off for Python 2)
  # 20121  ( YEAR - 1995 ) + MONTH  + DAY (little endian followed by "\r\n"
-@@ -28,3 +28,30 @@
+@@ -28,3 +28,31 @@
  !:mime text/x-python
  0	search/1	#!\ /usr/bin/env\ ruby	Python script text executable
  !:mime text/x-python
@@ -77,5 +77,6 @@ index 703504c..ace7885 100644
 +0	search/4096	try:
 +>&0	regex	\^\\s*except.*:	Python script text executable
 +!:mime text/x-python
++0	search/4096	try:
 +>&0	search/4096	finally:	Python script text executable
 +!:mime text/x-python
