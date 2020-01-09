@@ -5,7 +5,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.11
-Release: 33%{?dist}
+Release: 35%{?dist}
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
@@ -65,6 +65,12 @@ Patch58: file-5.11-pascal.patch
 
 # fix #1246385 - 'file --version' now exits successfully
 Patch59: file-5.11-version.patch
+
+# fix #1488898 - bump the strength of gzip
+Patch60: file-5.11-gzip-strength.patch
+
+# fix #1562135 - do not classify groovy script as python code
+Patch61: file-5.11-python-comment.patch
 
 URL: http://www.darwinsys.com/file/
 Requires: file-libs = %{version}-%{release}
@@ -171,6 +177,8 @@ file(1) command.
 %patch57 -p1
 %patch58 -p1
 %patch59 -p1
+%patch60 -p1
+%patch61 -p1
 
 # Patches can generate *.orig files, which can't stay in the magic dir,
 # otherwise there will be problems when compiling magic file!
@@ -250,6 +258,12 @@ cd python
 %endif
 
 %changelog
+* Wed Jun 06 2018 Kamil Dudka <kdudka@redhat.com> 5.11-35
+- fix #1562135 - do not classify groovy script as python code
+
+* Thu Sep 07 2017 Kamil Dudka <kdudka@redhat.com> 5.11-34
+- fix #1488898 - bump the strength of gzip
+
 * Mon Jun 27 2016 Kamil Dudka <kdudka@redhat.com> 5.11-33
 - fix #1246385 - 'file --version' now exits successfully
 
