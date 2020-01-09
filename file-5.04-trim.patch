@@ -82,25 +82,3 @@ index f431fe2..61d64ee 100644
  			if (m->type == FILE_PSTRING)
  				t++;
  		}
-diff --git a/src/softmagic.c.orig b/src/softmagic.c.orig
-index 246f8a7..f431fe2 100644
---- a/src/softmagic.c.orig
-+++ b/src/softmagic.c.orig
-@@ -67,7 +67,7 @@ private void cvt_64(union VALUETYPE *, const struct magic *);
-  */
- /*ARGSUSED1*/		/* nbytes passed for regularity, maybe need later */
- protected int
--file_softmagic(struct magic_set *ms, const unsigned char *buf, size_t level, size_t nbytes, int mode)
-+file_softmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes, size_t level, int mode)
- {
- 	struct mlist *ml;
- 	int rv;
-@@ -1468,7 +1468,7 @@ mget(struct magic_set *ms, const unsigned char *s,
- 			return -1;
- 		if (nbytes < offset)
- 			return 0;
--		return file_softmagic(ms, s + offset, recursion_level, nbytes - offset,
-+		return file_softmagic(ms, s + offset, nbytes - offset, recursion_level,
- 		    BINTEST);
- 
- 	case FILE_DEFAULT:	/* nothing to check */

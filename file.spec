@@ -5,7 +5,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.04
-Release: 21%{?dist}
+Release: 30%{?dist}
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
@@ -60,6 +60,21 @@ Patch47: file-5.04-CVE-2014-1943.patch
 Patch48: file-5.04-CVE-2012-1571.patch
 Patch49: file-5.04-trim.patch
 Patch50: file-5.04-ppc32core.patch
+Patch51: file-5.04-java1718.patch
+Patch52: file-5.04-pascal.patch
+Patch53: file-5.04-epub.patch
+Patch54: file-5.04-zipmime.patch
+Patch55: file-5.04-xml.patch
+Patch56: file-5.04-auxv.patch
+Patch57: file-5.04-newpython.patch
+Patch58: file-5.04-msooxml.patch
+Patch59: file-5.04-CVE-2014-3587.patch
+Patch60: file-5.04-CVE-2014-3710.patch
+Patch61: file-5.04-CVE-2014-8116.patch
+Patch62: file-5.04-CVE-2014-8117.patch
+Patch63: file-5.04-CVE-2014-9620.patch
+Patch64: file-5.04-CVE-2014-9653.patch
+Patch65: file-5.04-CVE-2014-3538.patch
 
 Requires: file-libs = %{version}-%{release}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -210,6 +225,41 @@ file(1) command.
 %patch49 -p1
 #fixes #1037279
 %patch50 -p1
+#fixes #1169509
+%patch51 -p1
+#fixes #1243650
+%patch52 -p1
+#fixes #1161058
+%patch53 -p1
+#fixes #1154802
+%patch54 -p1
+#fixes #1246073
+%patch55 -p1
+#fixes #1263987
+%patch56 -p1
+#fixes #809898
+%patch57 -p1
+#fixes #966953
+%patch58 -p1
+#fixes CVE-2014-3587
+%patch59 -p1
+#fixes CVE-2014-3710
+%patch60 -p1
+#fixes CVE-2014-8116
+%patch61 -p1
+#fixes CVE-2014-8117
+%patch62 -p1
+#fixes CVE-2014-9620
+%patch63 -p1
+#fixes CVE-2014-9653
+%patch64 -p1
+#fixes CVE-2014-3538
+%patch65 -p1
+
+
+# Patches can generate *.orig files, which can't stay in the magic dir,
+# otherwise there will be problems when compiling magic file!
+rm -fv magic/Magdir/*.orig
 
 iconv -f iso-8859-1 -t utf-8 < doc/libmagic.man > doc/libmagic.man_
 touch -r doc/libmagic.man doc/libmagic.man_
@@ -292,6 +342,48 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb 16 2016 Jan Kaluza <jkaluza@redhat.com> 5.04-30
+- fix CVE-2014-3538 (unrestricted regular expression matching)
+
+* Tue Jan 05 2016 Jan Kaluza <jkaluza@redhat.com> 5.04-29
+- fix #1284826 - try to read ELF header to detect corrupted one
+
+* Wed Dec 16 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-28
+- fix #1263987 - fix bugs found by coverity in the patch
+
+* Thu Nov 26 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-27
+- fix CVE-2014-3587 (incomplete fix for CVE-2012-1571)
+- fix CVE-2014-3710 (out-of-bounds read in elf note headers)
+- fix CVE-2014-8116 (multiple DoS issues (resource consumption))
+- fix CVE-2014-8117 (denial of service issue (resource consumption))
+- fix CVE-2014-9620 (limit the number of ELF notes processed)
+- fix CVE-2014-9653 (malformed elf file causes access to uninitialized memory)
+
+* Tue Nov 24 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-26
+- fix #809898 - add support for detection of Python 2.7 byte-compiled files
+
+* Tue Nov 24 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-25
+- fix #1263987 - fix coredump execfn detection on ppc64 and s390
+
+* Fri Nov 13 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-24
+- fix #966953 - include msooxml file in magic.mgc generation
+
+* Fri Nov 13 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-23
+- fix #966953 - increate the strength of MSOOXML magic patterns
+
+* Thu Nov 05 2015 Jan Kaluza <jkaluza@redhat.com> 5.04-22
+- fix #1169509 - add support for Java 1.7 and 1.8
+- fix #1243650 - comment out too-sensitive Pascal magic
+- fix #1080453 - remove .orig files from magic directory
+- fix #1161058 - add support for EPUB
+- fix #1162149 - remove parts of patches patching .orig files
+- fix #1154802 - fix detection of zip files containing file named "mime"
+- fix #1246073 - fix detection UTF8 and UTF16 encoded XML files
+- fix #1263987 - add new "execfn" to coredump output to show the real name of
+  executable which generated the coredump
+- fix #809898 - add support for detection of Python 3.2-3.5 byte-compiled files
+- fix #966953 - backport support for MSOOXML
+
 * Mon Aug 04 2014 Jan Kaluza <jkaluza@redhat.com> 5.04-21
 - fix typographical error in changelog
 
