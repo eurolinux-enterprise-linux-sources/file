@@ -5,7 +5,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.04
-Release: 11%{?dist}
+Release: 13%{?dist}
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
@@ -35,6 +35,13 @@ Patch21: file-5.04-man-page.patch
 Patch22: file-5.04-latex-improve.patch
 Patch23: file-5.04-text-fix.patch
 Patch24: file-5.04-elf-header-size.patch
+Patch25: file-4.17-i64-swap.patch
+Patch26: file-4.17-rpm-name.patch
+Patch27: file-5.04-bios.patch
+Patch28: file-5.04-generic-msdos.patch
+Patch29: file-5.04-lzma.patch
+Patch30: file-5.04-python-func.patch
+Patch31: file-localmagic.patch
 
 Requires: file-libs = %{version}-%{release}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -135,6 +142,20 @@ file(1) command.
 %patch23 -p1
 #fixes #730336
 %patch24 -p1
+#fixes #758109
+%patch25 -p1
+#fixes #760083
+%patch26 -p1
+#fixes #709846
+%patch27 -p1
+#fixes #688136
+%patch28 -p1
+#fixes #747999
+%patch29 -p1
+#fixes #733229
+%patch30 -p1
+#fixes #719583
+%patch31 -p1
 
 iconv -f iso-8859-1 -t utf-8 < doc/libmagic.man > doc/libmagic.man_
 touch -r doc/libmagic.man doc/libmagic.man_
@@ -162,6 +183,10 @@ mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/file
 make DESTDIR=${RPM_BUILD_ROOT} install
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/*.la
 
+# local magic in /etc/magic
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}
+cp -a ./magic/magic.local ${RPM_BUILD_ROOT}%{_sysconfdir}/magic
+
 cat magic/Magdir/* > ${RPM_BUILD_ROOT}%{_datadir}/misc/magic
 ln -s misc/magic ${RPM_BUILD_ROOT}%{_datadir}/magic
 #ln -s file/magic.mime ${RPM_BUILD_ROOT}%{_datadir}/magic.mime
@@ -184,6 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING ChangeLog README
 %{_bindir}/*
 %{_mandir}/man1/*
+%config(noreplace) %{_sysconfdir}/magic
 
 %files libs
 %defattr(-,root,root,-)
@@ -212,6 +238,18 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Feb 14 2012 Jan Kaluza <jkaluza@redhat.com> 5.04-13
+- fix #688136 - fixed the patch from previous commit
+- fix #719583 - support for local magic file in /etc/magic
+
+* Wed Feb 08 2012 Jan Kaluza <jkaluza@redhat.com> 5.04-12
+- fix #758109 - detect ia64 swap
+- fix #760083 - print RPM packages names
+- fix #709846 - detect BIOS headers
+- fix #688136 - remove weak msdos patterns
+- fix #747999 - improve lzma detection
+- fix #733229 - magic pattern for python function detection
+
 * Mon Sep 05 2011 Jan Kaluza <jkaluza@redhat.com> 5.04-11
 - fix #730336 - updated patch from upstream
 
