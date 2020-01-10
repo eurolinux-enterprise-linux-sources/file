@@ -5,7 +5,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.11
-Release: 11%{?dist}
+Release: 21%{?dist}
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
@@ -28,6 +28,12 @@ Patch13: file-5.04-generic-msdos.patch
 Patch14: file-5.14-netpbm.patch
 Patch15: file-5.11-rrdtool.patch
 Patch16: file-5.11-exit-code.patch
+Patch17: file-5.11-perl-shebang.patch
+Patch18: file-5.11-qcow3.patch
+Patch19: file-5.11-maxmime.patch
+Patch20: file-5.11-CVE-2014-1943.patch
+Patch21: file-5.11-CVE-2014-2270.patch
+Patch22: file-5.11-CVE-2013-7345.patch
 URL: http://www.darwinsys.com/file/
 Requires: file-libs = %{version}-%{release}
 BuildRequires: zlib-devel
@@ -98,6 +104,12 @@ file(1) command.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
+%patch18 -p1
+%patch19 -p1
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
 
 iconv -f iso-8859-1 -t utf-8 < doc/libmagic.man > doc/libmagic.man_
 touch -r doc/libmagic.man doc/libmagic.man_
@@ -173,6 +185,38 @@ cd python
 %endif
 
 %changelog
+* Tue Mar 25 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-21
+- fix #1079848 - fix potential regression in Perl detection caused
+  by previous fix
+
+* Mon Mar 24 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-20
+- fix #1079848 - fix for CVE-2013-7345
+
+* Fri Mar 07 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-19
+- fix #1073554 - fix for CVE-2014-2270
+
+* Wed Feb 19 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-18
+- fix #1066563 - fix for CVE-2014-1943
+
+* Wed Feb 12 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-17
+- Increase MAXMIME size to 80 bytes (#1064167)
+
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 5.11-16
+- Mass rebuild 2014-01-24
+
+* Fri Jan 10 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-15
+- fix #1048910 - detect perl scripts even with arguments in shebang
+
+* Tue Jan 07 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-14
+- fix #1048910 - increase perl scripts magic strength
+- fix #1048082 - add support for QCOW3 images detection
+
+* Thu Jan 02 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-13
+- fix #1038025 - improve perl scripts detection according to perl shebang
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 5.11-12
+- Mass rebuild 2013-12-27
+
 * Fri Nov 08 2013 Jan Kaluza <jkaluza@redhat.com> - 5.11-11
 - fix #1022967 - improve RRD Tool database detection
 - fix #1026852 - exit with 0 exit code when input file does not exist
