@@ -5,7 +5,7 @@
 Summary: A utility for determining file types
 Name: file
 Version: 5.11
-Release: 35%{?dist}
+Release: 11%{?dist}
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
@@ -28,50 +28,6 @@ Patch13: file-5.04-generic-msdos.patch
 Patch14: file-5.14-netpbm.patch
 Patch15: file-5.11-rrdtool.patch
 Patch16: file-5.11-exit-code.patch
-Patch17: file-5.11-perl-shebang.patch
-Patch18: file-5.11-qcow3.patch
-Patch20: file-5.11-CVE-2014-1943.patch
-Patch21: file-5.11-CVE-2014-2270.patch
-Patch22: file-5.11-CVE-2013-7345.patch
-Patch30: file-5.11-add-aarch64.patch
-Patch31: file-5.04-minix.patch
-Patch32: file-5.04-trim.patch
-Patch33: file-5.11-ppc64.patch
-Patch34: file-5.04-ppc32core.patch
-Patch35: file-5.11-stripped.patch
-Patch36: file-5.11-softmagic-read.patch
-Patch37: file-5.11-offset-oob.patch
-Patch38: file-5.11-swap-info.patch
-Patch39: file-5.11-CVE-2014-0207.patch
-Patch40: file-5.11-CVE-2014-0237.patch
-Patch41: file-5.11-CVE-2014-0238.patch
-Patch42: file-5.11-CVE-2014-3478.patch
-Patch43: file-5.11-CVE-2014-3479.patch
-Patch44: file-5.11-CVE-2014-3480.patch
-Patch45: file-5.11-CVE-2014-3487.patch
-Patch46: file-5.11-CVE-2014-3538.patch
-Patch47: file-5.11-CVE-2014-3587.patch
-Patch48: file-5.11-CVE-2014-3710.patch
-Patch49: file-5.11-CVE-2014-8116.patch
-Patch50: file-5.11-CVE-2014-8117.patch
-Patch51: file-5.11-CVE-2014-9652.patch
-Patch52: file-5.11-CVE-2014-9653.patch
-Patch53: file-5.11-xml.patch
-Patch54: file-5.11-buildid.patch
-Patch55: file-5.11-java1718.patch
-Patch56: file-5.11-auxv.patch
-Patch57: file-5.11-newpython.patch
-Patch58: file-5.11-pascal.patch
-
-# fix #1246385 - 'file --version' now exits successfully
-Patch59: file-5.11-version.patch
-
-# fix #1488898 - bump the strength of gzip
-Patch60: file-5.11-gzip-strength.patch
-
-# fix #1562135 - do not classify groovy script as python code
-Patch61: file-5.11-python-comment.patch
-
 URL: http://www.darwinsys.com/file/
 Requires: file-libs = %{version}-%{release}
 BuildRequires: zlib-devel
@@ -123,7 +79,7 @@ file(1) command.
 
 %prep
 
-# Don't use -b -- it will lead to problems when compiling magic file!
+# Don't use -b -- it will lead to poblems when compiling magic file!
 %setup -q
 %patch0 -p1
 %patch1 -p1
@@ -142,47 +98,6 @@ file(1) command.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch30 -p1
-%patch31 -p1
-%patch32 -p1
-%patch33 -p1
-%patch34 -p1
-%patch35 -p1
-%patch36 -p1
-%patch37 -p1
-%patch38 -p1
-%patch39 -p1
-%patch40 -p1
-%patch41 -p1
-%patch42 -p1
-%patch43 -p1
-%patch44 -p1
-%patch45 -p1
-%patch46 -p1
-%patch47 -p1
-%patch48 -p1
-%patch49 -p1
-%patch50 -p1
-%patch51 -p1
-%patch52 -p1
-%patch53 -p1
-%patch54 -p1
-%patch55 -p1
-%patch56 -p1
-%patch57 -p1
-%patch58 -p1
-%patch59 -p1
-%patch60 -p1
-%patch61 -p1
-
-# Patches can generate *.orig files, which can't stay in the magic dir,
-# otherwise there will be problems when compiling magic file!
-rm -fv magic/Magdir/*.orig
 
 iconv -f iso-8859-1 -t utf-8 < doc/libmagic.man > doc/libmagic.man_
 touch -r doc/libmagic.man doc/libmagic.man_
@@ -258,103 +173,6 @@ cd python
 %endif
 
 %changelog
-* Wed Jun 06 2018 Kamil Dudka <kdudka@redhat.com> 5.11-35
-- fix #1562135 - do not classify groovy script as python code
-
-* Thu Sep 07 2017 Kamil Dudka <kdudka@redhat.com> 5.11-34
-- fix #1488898 - bump the strength of gzip
-
-* Mon Jun 27 2016 Kamil Dudka <kdudka@redhat.com> 5.11-33
-- fix #1246385 - 'file --version' now exits successfully
-
-* Wed Mar 09 2016 Jan Kaluza <jkaluza@redhat.com> 5.11-32
-- fix #1278737 - add support for Java 1.7 and 1.8
-- fix #1281723 - show full executable name for core
-- fix #1271636 - add support for detection of Python 2.7 byte-compiled files
-- fix #1278768 - comment out too-sensitive Pascal magic
-
-* Mon Sep 07 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-31
-- fix #1255396 - Make the build ID output consistent with other tools
-
-* Fri Aug 28 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-30
-- fix CVE-2014-8116 - bump the acceptable ELF program headers count to 2048
-
-* Mon Jul 13 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-29
-- fix #839229 - fix detection of version of XML files
-
-* Mon Jul 13 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-28
-- fix #839229 - fix detection of version of XML files
-
-* Tue Jul 07 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-27
-- fix CVE-2014-0207 - cdf_read_short_sector insufficient boundary check
-- fix CVE-2014-0237 - cdf_unpack_summary_info() excessive looping DoS
-- fix CVE-2014-0238 - CDF property info parsing nelements infinite loop
-- fix CVE-2014-3478 - mconvert incorrect handling of truncated pascal string
-- fix CVE-2014-3479 - fix extensive backtracking in regular expression
-- fix CVE-2014-3480 - cdf_count_chain insufficient boundary check
-- fix CVE-2014-3487 - cdf_read_property_info insufficient boundary check
-- fix CVE-2014-3538 - unrestricted regular expression matching
-- fix CVE-2014-3587 - fix cdf_read_property_info
-- fix CVE-2014-3710 - out-of-bounds read in elf note headers
-- fix CVE-2014-8116 - multiple denial of service issues (resource consumption)
-- fix CVE-2014-8117 - denial of service issue (resource consumption)
-- fix CVE-2014-9652 - out of bounds read in mconvert()
-- fix CVE-2014-9653 - malformed elf file causes access to uninitialized memory
-
-* Tue Jun 09 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-26
-- fix #1080452 - remove .orig files from magic directory
-
-* Tue Jun 02 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-25
-- fix #1224667, #1224668 - show additional info for Linux swap files
-
-* Mon May 11 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-24
-- fix #1064268 - fix stray return -1
-
-* Wed Apr 22 2015 Jan Kaluza <jkaluza@redhat.com> - 5.11-23
-- fix #1094648 - improve Minix detection pattern to fix false positives
-- fix #1161912 - trim white-spaces during ISO9660 detection
-- fix #1157850 - fix detection of ppc64le ELF binaries
-- fix #1161911 - display "from" field on 32bit ppc core
-- fix #1064167 - revert MAXMIME patch
-- fix #1064268 - detect Dwarf debuginfo as "not stripped"
-- fix #1082689 - fix invalid read when matched pattern is the last one tried
-- fix #1080362 - remove deadcode and OFFSET_OOB redefinition
-
-* Tue Jul 15 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-22
-- fix #1067688 - add support for aarch64 ELF binaries
-
-* Tue Mar 25 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-21
-- fix #1079848 - fix potential regression in Perl detection caused
-  by previous fix
-
-* Mon Mar 24 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-20
-- fix #1079848 - fix for CVE-2013-7345
-
-* Fri Mar 07 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-19
-- fix #1073554 - fix for CVE-2014-2270
-
-* Wed Feb 19 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-18
-- fix #1066563 - fix for CVE-2014-1943
-
-* Wed Feb 12 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-17
-- Increase MAXMIME size to 80 bytes (#1064167)
-
-* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 5.11-16
-- Mass rebuild 2014-01-24
-
-* Fri Jan 10 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-15
-- fix #1048910 - detect perl scripts even with arguments in shebang
-
-* Tue Jan 07 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-14
-- fix #1048910 - increase perl scripts magic strength
-- fix #1048082 - add support for QCOW3 images detection
-
-* Thu Jan 02 2014 Jan Kaluza <jkaluza@redhat.com> - 5.11-13
-- fix #1038025 - improve perl scripts detection according to perl shebang
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 5.11-12
-- Mass rebuild 2013-12-27
-
 * Fri Nov 08 2013 Jan Kaluza <jkaluza@redhat.com> - 5.11-11
 - fix #1022967 - improve RRD Tool database detection
 - fix #1026852 - exit with 0 exit code when input file does not exist
